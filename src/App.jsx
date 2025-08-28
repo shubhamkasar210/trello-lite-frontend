@@ -10,6 +10,7 @@ import EditProject from "./components/Projects/EditProject";
 
 import ManageMembers from "./components/ManageMembers";
 
+import TaskList from "./components/Tasks/TaskList";
 import TaskDetails from "./components/Tasks/TaskDetails";
 import NewTask from "./components/Tasks/NewTask";
 import EditTask from "./components/Tasks/EditTask";
@@ -20,13 +21,14 @@ function App() {
       <BrowserRouter basename="/">
         <Routes>
           <Route path="/" element={<Body />}>
-            <Route path="/" element={<Login />}></Route>
+            <Route index element={<Login />}></Route>
             <Route path="/projects" element={<ProjectsDashboard />} />
 
             <Route path="/projects/new" element={<NewProject />} />
             <Route path="/projects/:projectId" element={<ProjectBoard />} />
             <Route path="/projects/:projectId/edit" element={<EditProject />} />
-    
+
+            <Route path="projects/:projectId/tasks" element={<TaskList />} />
             <Route path="/projects/:projectId/tasks/new" element={<NewTask />} />
             <Route path="/projects/:projectId/tasks/:taskId" element={<TaskDetails />} />
             <Route path="/projects/:projectId/tasks/:taskId/edit" element={<EditTask />} />
