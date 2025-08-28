@@ -1,29 +1,52 @@
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
-import { useState } from "react";
-
-const initialData = {
-  todo: [
-    { id: "task-1", title: "Design homepage" },
-    { id: "task-2", title: "Fix login bug" },
-  ],
-  inProgress: [{ id: "task-3", title: "Build API" }],
-  done: [{ id: "task-4", title: "Set up database" }],
-};
+import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import axios from "axios";
 
 const ProjectBoard = () => {
-  const [tasks, setTasks] = useState(initialData);
+  const { projectId } = useParams();
+  const [tasks, setTasks] = useState({ todo: [], inProgress: [], done: [] });
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
+  // Fetch tasks for this project
+  useEffect(() => {
+    const fetchTasks = async () => {
+      try {
+        const res = await axios.get(
+          `http://localhost:7777/projects/${projectId}/tasks`,
+          { withCredentials: true }
+        );
+
+        // Transform tasks into columns based on status
+        const data = { todo: [], inProgress: [], done: [] };
+        res.data.forEach((task) => {
+          if (task.status === "To Do") data.todo.push(task);
+          else if (task.status === "In Progress") data.inProgress.push(task);
+          else if (task.status === "Done") data.done.push(task);
+        });
+
+        setTasks(data);
+      } catch (err) {
+        setError(err.response?.data?.message || "Failed to fetch tasks");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTasks();
+  }, [projectId]);
+
+  // Handle drag & drop
   const onDragEnd = (result) => {
     const { source, destination } = result;
-
     if (!destination) return;
 
     if (
       source.droppableId === destination.droppableId &&
       source.index === destination.index
-    ) {
+    )
       return;
-    }
 
     const sourceColumn = Array.from(tasks[source.droppableId]);
     const destColumn = Array.from(tasks[destination.droppableId]);
@@ -31,11 +54,21 @@ const ProjectBoard = () => {
     const [movedTask] = sourceColumn.splice(source.index, 1);
     destColumn.splice(destination.index, 0, movedTask);
 
+    // Update UI immediately
     setTasks({
       ...tasks,
       [source.droppableId]: sourceColumn,
       [destination.droppableId]: destColumn,
     });
+
+    // TODO: Call API to update task status
+    // axios.put(`http://localhost:7777/tasks/${movedTask._id}`, {
+    //   status: destination.droppableId === "todo"
+    //     ? "To Do"
+    //     : destination.droppableId === "inProgress"
+    //     ? "In Progress"
+    //     : "Done",
+    // });
   };
 
   const headerColors = {
@@ -43,6 +76,9 @@ const ProjectBoard = () => {
     inProgress: "#f5e689",
     done: "#89f58e",
   };
+
+  if (loading) return <p className="p-6 text-white">Loading board...</p>;
+  if (error) return <p className="p-6 text-red-500">Error: {error}</p>;
 
   return (
     <div className="p-6 grid grid-cols-3 gap-6">
@@ -68,8 +104,8 @@ const ProjectBoard = () => {
                 <div className="p-3 flex-1 min-h-[300px]">
                   {columnTasks.map((task, index) => (
                     <Draggable
-                      key={task.id}
-                      draggableId={task.id}
+                      key={task._id}
+                      draggableId={task._id}
                       index={index}
                     >
                       {(provided) => (
@@ -79,7 +115,10 @@ const ProjectBoard = () => {
                           {...provided.draggableProps}
                           {...provided.dragHandleProps}
                         >
-                          {task.title}
+                          <h3 className="font-semibold">{task.title}</h3>
+                          <p className="text-sm text-gray-600">
+                            {task.description}
+                          </p>
                         </div>
                       )}
                     </Draggable>
