@@ -25,7 +25,6 @@ const Login = () => {
         },
         { withCredentials: true }
       );
-      console.log(res);
       
       return navigate("/projects");
 
