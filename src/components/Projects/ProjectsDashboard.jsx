@@ -1,13 +1,22 @@
-import { useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { setProjects, deleteProject } from "../../utils/projectsSlice";
+import { Pencil, Trash2 } from "lucide-react";
 
 const ProjectsDashboard = () => {
   const { data: projects } = useSelector((state) => state.projects);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const [toast, setToast] = useState(null);
+  const [confirmModal, setConfirmModal] = useState(null);
+
+  const showToast = (type, message) => {
+    setToast({ type, message });
+    setTimeout(() => setToast(null), 3000);
+  };
 
   const fetchProjects = async () => {
     try {
@@ -24,21 +33,64 @@ const ProjectsDashboard = () => {
     fetchProjects();
   }, []);
 
-  const handleDelete = async (id) => {
-    if (!window.confirm("Are you sure you want to delete this project?"))
-      return;
+  const confirmDelete = (id) => {
+    setConfirmModal(id);
+  };
+
+  const handleDelete = async () => {
+    if (!confirmModal) return;
     try {
-      await axios.delete(`http://localhost:7777/projects/${id}`, {
+      await axios.delete(`http://localhost:7777/projects/${confirmModal}`, {
         withCredentials: true,
       });
-      dispatch(deleteProject(id));
+      dispatch(deleteProject(confirmModal));
+      showToast("success", "✅ Project deleted successfully");
     } catch (err) {
-      alert(err.response?.data?.message || "Failed to delete project");
+      showToast(
+        "error",
+        err.response?.data?.message || "❌ Failed to delete project"
+      );
+    } finally {
+      setConfirmModal(null);
     }
   };
 
   return (
-    <div className="min-h-screen p-4 sm:p-8">
+    <div className="min-h-screen p-4 sm:p-8 relative bg-gray-900">
+      {toast && (
+        <div
+          className={`fixed top-6 right-6 px-4 py-3 rounded-lg shadow-lg text-white text-sm font-medium transition ${
+            toast.type === "success" ? "bg-green-600" : "bg-red-600"
+          }`}
+        >
+          {toast.message}
+        </div>
+      )}
+
+      {confirmModal && (
+        <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
+          <div className="bg-gray-800/80 backdrop-blur-md border border-gray-700 rounded-xl p-6 w-full max-w-md text-center shadow-xl">
+            <h2 className="text-lg font-semibold text-white mb-4">
+              Are you sure you want to delete this project?
+            </h2>
+            <div className="flex justify-center gap-4 mt-6">
+              <button
+                onClick={handleDelete}
+                className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition"
+              >
+                Yes, Delete
+              </button>
+              <button
+                onClick={() => setConfirmModal(null)}
+                className="px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 transition"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-10">
         <h1 className="text-2xl sm:text-3xl font-bold text-white tracking-tight text-center sm:text-left">
           My Projects
@@ -53,41 +105,52 @@ const ProjectsDashboard = () => {
 
       {projects.length === 0 ? (
         <div className="text-center text-gray-400 text-lg">
-          No projects yet. Start building something 🚀
+          No projects yet. Start building something
         </div>
       ) : (
-        <div className="grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-6 sm:gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
           {projects.map((project) => (
             <div
               key={project._id}
               onClick={() => navigate(`/projects/${project._id}`)}
-              className="cursor-pointer bg-gray-800/70 backdrop-blur-md border border-gray-700 rounded-xl shadow-lg p-5 flex flex-col justify-between hover:shadow-2xl hover:border-indigo-500/50 hover:scale-[1.02] transition-all"
+              className="cursor-pointer group bg-gradient-to-br from-gray-800/80 to-gray-900/80 backdrop-blur-md border border-gray-700 rounded-2xl shadow-lg p-6 flex flex-col justify-between hover:shadow-xl hover:border-indigo-500/60 hover:scale-[1.02] transition-all"
             >
-              <div>
-                <h2 className="text-lg font-semibold text-white mb-2">
+              <div className="flex items-start justify-between">
+                <h2 className="text-xl font-semibold text-white group-hover:text-indigo-400 transition">
                   {project.title}
                 </h2>
-                <p className="text-gray-400 text-sm line-clamp-3">
-                  {project.description}
-                </p>
+                <span className="px-3 py-1 text-xs font-medium rounded-full bg-indigo-500/20 text-indigo-400 border border-indigo-500/30">
+                  Project
+                </span>
               </div>
 
+              <p className="text-gray-400 text-sm mt-3 line-clamp-3">
+                {project.description}
+              </p>
+
               <div
-                className="flex flex-col sm:flex-row justify-end gap-2 mt-6"
+                className="flex items-center justify-between mt-6 pt-4 border-t border-gray-700/60"
                 onClick={(e) => e.stopPropagation()}
               >
-                <button
-                  onClick={() => navigate(`/projects/${project._id}/edit`)}
-                  className="w-full sm:w-auto px-3 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition"
-                >
-                  Edit
-                </button>
-                <button
-                  onClick={() => handleDelete(project._id)}
-                  className="w-full sm:w-auto px-3 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition"
-                >
-                  Delete
-                </button>
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => navigate(`/projects/${project._id}/edit`)}
+                    className="flex items-center gap-1.5 px-3 py-1.5 text-sm bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg shadow-sm transition"
+                  >
+                    <Pencil size={16} />
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => confirmDelete(project._id)}
+                    className="flex items-center gap-1.5 px-3 py-1.5 text-sm bg-red-600 hover:bg-red-700 text-white rounded-lg shadow-sm transition"
+                  >
+                    <Trash2 size={16} />
+                    Delete
+                  </button>
+                </div>
+                <span className="text-xs text-gray-500 italic">
+                  Updated 2d ago
+                </span>
               </div>
             </div>
           ))}
