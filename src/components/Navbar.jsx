@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { removeUser } from "../utils/usersSlice";
 import axios from "axios";
 
-const Navbar = () => {
+const Navbar = ({ lightMode, setLightMode }) => {
   const user = useSelector((store) => store.user.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -25,6 +25,7 @@ const Navbar = () => {
   };
 
   const isLoggedIn = !!user;
+  const isAdmin = user?.role === "admin";
 
   return (
     <nav className="bg-gray-900 text-white shadow-md">
@@ -52,13 +53,21 @@ const Navbar = () => {
 
                 {menuOpen && (
                   <div className="absolute right-0 mt-2 w-48 bg-gray-800 rounded-md shadow-lg py-2 z-50">
-                    <Link
-                      to="/profile"
-                      className="block px-4 py-2 text-sm hover:bg-gray-700"
-                      onClick={() => setMenuOpen(false)}
+                    {isAdmin && (
+                      <Link
+                        to="/admin-dashboard"
+                        className="block px-4 py-2 text-sm hover:bg-gray-700"
+                        onClick={() => setMenuOpen(false)}
+                      >
+                        Admin Dashboard
+                      </Link>
+                    )}
+                    <button
+                      onClick={() => setLightMode(!lightMode)}
+                      className="w-full text-left px-4 py-2 text-sm hover:bg-gray-700 flex items-center justify-between"
                     >
-                      Profile
-                    </Link>
+                      {lightMode ? "🌙 Dark Mode" : "🌞 Light Mode"}
+                    </button>
                     <Link
                       to="/projects"
                       className="block px-4 py-2 text-sm hover:bg-gray-700"
@@ -109,13 +118,21 @@ const Navbar = () => {
 
       {isLoggedIn && menuOpen && (
         <div className="md:hidden bg-gray-800 px-2 pt-2 pb-3 space-y-1">
-          <Link
-            to="/profile"
-            className="block px-3 py-2 rounded text-base hover:bg-gray-700"
-            onClick={() => setMenuOpen(false)}
+          {isAdmin && (
+            <Link
+              to="/admin-dashboard"
+              className="block px-3 py-2 rounded text-base hover:bg-gray-700"
+              onClick={() => setMenuOpen(false)}
+            >
+              Admin Dashboard
+            </Link>
+          )}
+          <button
+            onClick={() => setLightMode(!lightMode)}
+            className="w-full text-left px-3 py-2 rounded text-base hover:bg-gray-700 flex items-center justify-between"
           >
-            Profile
-          </Link>
+            {lightMode ? "🌙 Dark Mode" : "🌞 Light Mode"}
+          </button>
           <Link
             to="/projects"
             className="block px-3 py-2 rounded text-base hover:bg-gray-700"

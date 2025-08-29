@@ -12,6 +12,7 @@ const ProjectsDashboard = () => {
 
   const [toast, setToast] = useState(null);
   const [confirmModal, setConfirmModal] = useState(null);
+  const [membersMap, setMembersMap] = useState({}); // store members per project
 
   const showToast = (type, message) => {
     setToast({ type, message });
@@ -24,6 +25,27 @@ const ProjectsDashboard = () => {
         withCredentials: true,
       });
       dispatch(setProjects(res.data));
+
+      // fetch members for each project
+      const membersData = {};
+      await Promise.all(
+        res.data.map(async (project) => {
+          try {
+            const membersRes = await axios.get(
+              `http://localhost:7777/projects/${project._id}/members`,
+              { withCredentials: true }
+            );
+            membersData[project._id] = membersRes.data; // store array of members
+          } catch (err) {
+            console.error(
+              `Failed to fetch members for project ${project._id}`,
+              err
+            );
+            membersData[project._id] = [];
+          }
+        })
+      );
+      setMembersMap(membersData);
     } catch (err) {
       console.error(err.response?.data?.message || err.message);
     }
@@ -124,6 +146,21 @@ const ProjectsDashboard = () => {
               <p className="text-gray-400 text-sm mt-3 line-clamp-3">
                 {project.description}
               </p>
+
+              {/* Display members */}
+              {membersMap[project._id] &&
+                membersMap[project._id].length > 0 && (
+                  <div className="flex flex-wrap gap-2 mt-3">
+                    {membersMap[project._id].map((member) => (
+                      <span
+                        key={member._id}
+                        className="px-2 py-1 text-xs text-gray-200 bg-gray-700/40 rounded-full border border-gray-600"
+                      >
+                        {member.userName}
+                      </span>
+                    ))}
+                  </div>
+                )}
 
               <div className="flex flex-wrap items-center justify-between mt-6 pt-4 border-t border-gray-700/60 gap-2">
                 <div

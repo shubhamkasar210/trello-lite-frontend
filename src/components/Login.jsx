@@ -32,7 +32,7 @@ const Login = () => {
 
       if (res.data.user.role === "admin") {
         showToast("success", "✅ Admin logged in successfully!");
-        setTimeout(() => navigate("/projects"), 1000);
+        setTimeout(() => navigate("/admin-dashboard"), 1000);
       } else {
         showToast("success", "✅ Logged in successfully!");
         setTimeout(() => navigate("/projects"), 1000);

@@ -1,7 +1,6 @@
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import Body from "./components/Body";
 import Login from "./components/Login";
-import Profile from "./components/Profile";
 
 import ProjectsDashboard from "./components/Projects/ProjectsDashboard";
 import NewProject from "./components/Projects/NewProject";
@@ -18,12 +17,24 @@ import appStore from "./utils/appStore";
 import { Provider } from "react-redux";
 import AdminDashboard from "./components/AdminDashboard";
 import ProtectedRoutes from "./components/ProtectedRoutes";
+import { useState } from "react";
+import Navbar from "./components/Navbar";
 
 function App() {
+  const [lightMode, setLightMode] = useState(false);
+
   return (
     <Provider store={appStore}>
-      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black ">
+      <div
+        className={`min-h-screen transition-colors duration-300 ${
+          lightMode
+            ? "bg-yellow-100"
+            : "bg-gradient-to-br from-gray-900 via-gray-800 to-black"
+        }`}
+      >
         <BrowserRouter basename="/">
+          <Navbar lightMode={lightMode} setLightMode={setLightMode} />
+
           <Routes>
             <Route path="/" element={<Body />}>
               <Route index element={<Login />}></Route>
@@ -59,7 +70,6 @@ function App() {
                   element={<ManageMembers />}
                 />
 
-                <Route path="/profile" element={<Profile />}></Route>
                 <Route
                   path="/admin-dashboard"
                   element={<AdminDashboard />}
