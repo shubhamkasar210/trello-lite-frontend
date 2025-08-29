@@ -16,6 +16,7 @@ import NewTask from "./components/Tasks/NewTask";
 import EditTask from "./components/Tasks/EditTask";
 import appStore from "./utils/appStore";
 import { Provider } from "react-redux";
+import AdminDashboard from "./components/AdminDashboard";
 
 function App() {
   return (
@@ -54,6 +55,7 @@ function App() {
               />
 
               <Route path="/profile" element={<Profile />}></Route>
+              <Route path="/admin-dashboard" element={<AdminDashboard />}></Route>
             </Route>
           </Routes>
         </BrowserRouter>
