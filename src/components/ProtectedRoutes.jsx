@@ -1,3 +1,4 @@
+// ProtectedRoutes.jsx
 import { useSelector } from "react-redux";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
 

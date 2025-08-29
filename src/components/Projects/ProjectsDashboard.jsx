@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { setProjects, deleteProject } from "../../utils/projectsSlice";
-import { Pencil, Trash2 } from "lucide-react";
+import { Pencil, Trash2, List, Columns } from "lucide-react";
 
 const ProjectsDashboard = () => {
   const { data: projects } = useSelector((state) => state.projects);
@@ -33,9 +33,7 @@ const ProjectsDashboard = () => {
     fetchProjects();
   }, []);
 
-  const confirmDelete = (id) => {
-    setConfirmModal(id);
-  };
+  const confirmDelete = (id) => setConfirmModal(id);
 
   const handleDelete = async () => {
     if (!confirmModal) return;
@@ -112,8 +110,7 @@ const ProjectsDashboard = () => {
           {projects.map((project) => (
             <div
               key={project._id}
-              onClick={() => navigate(`/projects/${project._id}`)}
-              className="cursor-pointer group bg-gradient-to-br from-gray-800/80 to-gray-900/80 backdrop-blur-md border border-gray-700 rounded-2xl shadow-lg p-6 flex flex-col justify-between hover:shadow-xl hover:border-indigo-500/60 hover:scale-[1.02] transition-all"
+              className="group bg-gradient-to-br from-gray-800/80 to-gray-900/80 backdrop-blur-md border border-gray-700 rounded-2xl shadow-lg p-6 flex flex-col justify-between hover:shadow-xl hover:border-indigo-500/60 hover:scale-[1.02] transition-all"
             >
               <div className="flex items-start justify-between">
                 <h2 className="text-xl font-semibold text-white group-hover:text-indigo-400 transition">
@@ -128,29 +125,37 @@ const ProjectsDashboard = () => {
                 {project.description}
               </p>
 
-              <div
-                className="flex items-center justify-between mt-6 pt-4 border-t border-gray-700/60"
-                onClick={(e) => e.stopPropagation()}
-              >
-                <div className="flex gap-2">
+              <div className="flex flex-wrap items-center justify-between mt-6 pt-4 border-t border-gray-700/60 gap-2">
+                <div
+                  className="flex flex-wrap gap-2"
+                  onClick={(e) => e.stopPropagation()}
+                >
                   <button
                     onClick={() => navigate(`/projects/${project._id}/edit`)}
-                    className="flex items-center gap-1.5 px-3 py-1.5 text-sm bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg shadow-sm transition"
+                    className="flex cursor-pointer items-center gap-1 px-2 py-1 text-xs sm:text-sm bg-indigo-600 hover:bg-indigo-700 text-white rounded-md shadow-sm transition"
                   >
-                    <Pencil size={16} />
-                    Edit
+                    <Pencil size={14} /> Edit
                   </button>
                   <button
                     onClick={() => confirmDelete(project._id)}
-                    className="flex items-center gap-1.5 px-3 py-1.5 text-sm bg-red-600 hover:bg-red-700 text-white rounded-lg shadow-sm transition"
+                    className="flex cursor-pointer items-center gap-1 px-2 py-1 text-xs sm:text-sm bg-red-600 hover:bg-red-700 text-white rounded-md shadow-sm transition"
                   >
-                    <Trash2 size={16} />
-                    Delete
+                    <Trash2 size={14} /> Delete
+                  </button>
+                  <button
+                    onClick={() => navigate(`/projects/${project._id}/tasks`)}
+                    className="flex cursor-pointer items-center gap-1 px-2 py-1 text-xs sm:text-sm bg-green-600 hover:bg-green-700 text-white rounded-md shadow-sm transition"
+                  >
+                    <List size={14} /> Tasks
                   </button>
                 </div>
-                <span className="text-xs text-gray-500 italic">
-                  Updated 2d ago
-                </span>
+
+                <button
+                  onClick={() => navigate(`/projects/${project._id}`)}
+                  className="flex cursor-pointer items-center gap-1 px-2 py-1 text-xs sm:text-sm bg-blue-600 hover:bg-blue-700 text-white rounded-md shadow-sm transition"
+                >
+                  <Columns size={14} /> Kanban Board
+                </button>
               </div>
             </div>
           ))}
