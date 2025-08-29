@@ -56,7 +56,7 @@ const ProjectsDashboard = () => {
   };
 
   return (
-    <div className="min-h-screen p-4 sm:p-8 relative bg-gray-900">
+    <div className="min-h-screen p-4 sm:p-8 relative">
       {toast && (
         <div
           className={`fixed top-6 right-6 px-4 py-3 rounded-lg shadow-lg text-white text-sm font-medium transition ${
