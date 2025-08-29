@@ -80,7 +80,7 @@ const ProjectBoard = () => {
   if (error) return <p className="p-6 text-red-500">Error: {error}</p>;
 
   return (
-    <div className="p-6 grid grid-cols-3 gap-6">
+    <div className="p-4 grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
       <DragDropContext onDragEnd={onDragEnd}>
         {Object.entries(tasks).map(([columnId, columnTasks]) => (
           <Droppable droppableId={columnId} key={columnId}>
@@ -91,7 +91,7 @@ const ProjectBoard = () => {
                 ref={provided.innerRef}
               >
                 <h2
-                  className="text-3xl font-bold text-center p-3 rounded-t-2xl"
+                  className="text-xl md:text-2xl lg:text-3xl font-bold text-center p-3 rounded-t-2xl"
                   style={{
                     backgroundColor: headerColors[columnId],
                     color: "#172b4d",
@@ -99,7 +99,7 @@ const ProjectBoard = () => {
                 >
                   {columnId.replace(/([A-Z])/g, " $1")}
                 </h2>
-                <div className="p-3 flex-1 min-h-[300px]">
+                <div className="p-3 flex-1 min-h-[250px] md:min-h-[300px]">
                   {columnTasks.map((task, index) => (
                     <Draggable
                       key={task._id}
@@ -113,8 +113,10 @@ const ProjectBoard = () => {
                           {...provided.draggableProps}
                           {...provided.dragHandleProps}
                         >
-                          <h3 className="font-semibold">{task.title}</h3>
-                          <p className="text-sm text-gray-600">
+                          <h3 className="font-semibold text-base md:text-lg">
+                            {task.title}
+                          </h3>
+                          <p className="text-sm md:text-base text-gray-600">
                             {task.description}
                           </p>
                         </div>
