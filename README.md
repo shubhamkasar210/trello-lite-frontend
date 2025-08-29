@@ -10,6 +10,7 @@ Or
 
 You Can Create One.
 
+
 Frontend Dependencies
 
 | Package           | Version  | Purpose                          |
@@ -39,4 +40,5 @@ Development Dependencies (devDependencies):
 | @types/react                | ^19.1.10 | Type definitions for React     |
 | @types/react-dom            | ^19.1.7  | Type definitions for React DOM |
 | globals                     | ^16.3.0  | Global variables for ESLint    |
+
 
