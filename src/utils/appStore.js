@@ -7,7 +7,7 @@ const appStore = configureStore({
   reducer: {
     projects: projectReducer,
     tasks: taskReducer,
-    user: userReducer,
+    users: userReducer,
   },
 });
 

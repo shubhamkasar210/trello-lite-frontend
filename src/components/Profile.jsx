@@ -2,7 +2,7 @@ import { useSelector } from "react-redux";
 
 const Profile = () => {
   // Access the user from Redux state
-  const { user } = useSelector((state) => state.user);
+  const { user } = useSelector((state) => state.users);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-900 p-6">
