@@ -3,6 +3,7 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/usersSlice";
 import { useNavigate } from "react-router-dom";
+import { BASE_URL } from "../utils/constants";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -24,7 +25,7 @@ const Login = () => {
     setLoading(true);
     try {
       const res = await axios.post(
-        "http://localhost:7777/auth/login",
+        BASE_URL + "/auth/login",
         { email, password },
         { withCredentials: true }
       );
@@ -32,7 +33,7 @@ const Login = () => {
 
       if (res.data.user.role === "admin") {
         showToast("success", "✅ Admin logged in successfully!");
-        setTimeout(() => navigate("/admin-dashboard"), 1000);
+        setTimeout(() => navigate("/projects"), 1000);
       } else {
         showToast("success", "✅ Logged in successfully!");
         setTimeout(() => navigate("/projects"), 1000);
@@ -56,7 +57,7 @@ const Login = () => {
     setLoading(true);
     try {
       const res = await axios.post(
-        "http://localhost:7777/auth/signup",
+        BASE_URL + "/auth/signup",
         { userName, email, password },
         { withCredentials: true }
       );

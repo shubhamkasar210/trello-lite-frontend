@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Pencil, Trash2 } from "lucide-react";
+import { BASE_URL } from "../../utils/constants";
 
 const TaskList = () => {
   const { projectId } = useParams();
@@ -19,10 +20,9 @@ const TaskList = () => {
 
   const fetchTasks = async () => {
     try {
-      const res = await axios.get(
-        `http://localhost:7777/projects/${projectId}/tasks`,
-        { withCredentials: true }
-      );
+      const res = await axios.get(`${BASE_URL}/projects/${projectId}/tasks`, {
+        withCredentials: true,
+      });
       setTasks(res.data);
     } catch (err) {
       setError(err.response?.data?.message || "Failed to fetch tasks");
@@ -43,7 +43,7 @@ const TaskList = () => {
     if (!confirmModal) return;
     try {
       await axios.delete(
-        `http://localhost:7777/projects/${projectId}/tasks/${confirmModal}`,
+        `${BASE_URL}/projects/${projectId}/tasks/${confirmModal}`,
         { withCredentials: true }
       );
       setTasks((prev) => prev.filter((t) => t._id !== confirmModal));

@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { updateTask } from "../../utils/tasksSlice";
+import { BASE_URL } from "../../utils/constants";
 
 const EditTask = () => {
   const { projectId, taskId } = useParams();
@@ -32,7 +33,7 @@ const EditTask = () => {
       const fetchTask = async () => {
         try {
           const res = await axios.get(
-            `http://localhost:7777/projects/${projectId}/tasks/${taskId}`,
+            `${BASE_URL}/projects/${projectId}/tasks/${taskId}`,
             { withCredentials: true }
           );
           setTitle(res.data.title);
@@ -58,7 +59,7 @@ const EditTask = () => {
     e.preventDefault();
     try {
       const res = await axios.patch(
-        `http://localhost:7777/projects/${projectId}/tasks/${taskId}`,
+        `${BASE_URL}/projects/${projectId}/tasks/${taskId}`,
         { title, description, status, dueDate },
         { withCredentials: true }
       );

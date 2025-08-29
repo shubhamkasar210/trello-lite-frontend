@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { BASE_URL } from "../../utils/constants";
 
 const NewProject = () => {
   const [projectName, setProjectName] = useState("");
@@ -18,7 +19,7 @@ const NewProject = () => {
 
     try {
       const res = await axios.post(
-        "http://localhost:7777/projects",
+        BASE_URL + "/projects",
         {
           title: projectName,
           description,

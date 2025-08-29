@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { BASE_URL } from "../../utils/constants";
 
 const NewTask = () => {
   const { projectId } = useParams();
@@ -21,7 +22,7 @@ const NewTask = () => {
     e.preventDefault();
     try {
       await axios.post(
-        "http://localhost:7777/tasks",
+        BASE_URL + "/tasks",
         { projectId, title, description, status, dueDate },
         { withCredentials: true }
       );

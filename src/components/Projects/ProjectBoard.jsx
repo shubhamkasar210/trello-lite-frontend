@@ -2,6 +2,7 @@ import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import { BASE_URL } from "../../utils/constants";
 
 const ProjectBoard = () => {
   const { projectId } = useParams();
@@ -12,10 +13,9 @@ const ProjectBoard = () => {
   useEffect(() => {
     const fetchTasks = async () => {
       try {
-        const res = await axios.get(
-          `http://localhost:7777/projects/${projectId}/tasks`,
-          { withCredentials: true }
-        );
+        const res = await axios.get(`${BASE_URL}/projects/${projectId}/tasks`, {
+          withCredentials: true,
+        });
         const data = { todo: [], inProgress: [], done: [] };
         res.data.forEach((task) => {
           if (task.status === "To Do") data.todo.push(task);
@@ -61,7 +61,7 @@ const ProjectBoard = () => {
 
     try {
       await axios.patch(
-        `http://localhost:7777/projects/${projectId}/tasks/${movedTask._id}`,
+        `${BASE_URL}/projects/${projectId}/tasks/${movedTask._id}`,
         { status: newStatus },
         { withCredentials: true }
       );

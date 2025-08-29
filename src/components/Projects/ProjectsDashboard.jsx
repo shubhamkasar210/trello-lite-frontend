@@ -4,6 +4,7 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { setProjects, deleteProject } from "../../utils/projectsSlice";
 import { Pencil, Trash2, List, Columns } from "lucide-react";
+import { BASE_URL } from "../../utils/constants";
 
 const ProjectsDashboard = () => {
   const { data: projects } = useSelector((state) => state.projects);
@@ -12,7 +13,7 @@ const ProjectsDashboard = () => {
 
   const [toast, setToast] = useState(null);
   const [confirmModal, setConfirmModal] = useState(null);
-  const [membersMap, setMembersMap] = useState({}); // store members per project
+  const [membersMap, setMembersMap] = useState({});
 
   const showToast = (type, message) => {
     setToast({ type, message });
@@ -21,21 +22,20 @@ const ProjectsDashboard = () => {
 
   const fetchProjects = async () => {
     try {
-      const res = await axios.get("http://localhost:7777/projects", {
+      const res = await axios.get(BASE_URL + "/projects", {
         withCredentials: true,
       });
       dispatch(setProjects(res.data));
 
-      // fetch members for each project
       const membersData = {};
       await Promise.all(
         res.data.map(async (project) => {
           try {
             const membersRes = await axios.get(
-              `http://localhost:7777/projects/${project._id}/members`,
+              `${BASE_URL}/projects/${project._id}/members`,
               { withCredentials: true }
             );
-            membersData[project._id] = membersRes.data; // store array of members
+            membersData[project._id] = membersRes.data;
           } catch (err) {
             console.error(
               `Failed to fetch members for project ${project._id}`,
@@ -60,7 +60,7 @@ const ProjectsDashboard = () => {
   const handleDelete = async () => {
     if (!confirmModal) return;
     try {
-      await axios.delete(`http://localhost:7777/projects/${confirmModal}`, {
+      await axios.delete(`${BASE_URL}/projects/${confirmModal}`, {
         withCredentials: true,
       });
       dispatch(deleteProject(confirmModal));
@@ -147,7 +147,6 @@ const ProjectsDashboard = () => {
                 {project.description}
               </p>
 
-              {/* Display members */}
               {membersMap[project._id] &&
                 membersMap[project._id].length > 0 && (
                   <div className="flex flex-wrap gap-2 mt-3">

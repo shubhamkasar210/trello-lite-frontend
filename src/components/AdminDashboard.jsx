@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
+import { BASE_URL } from "../utils/constants";
 
 const AdminDashboard = () => {
   const [projectId, setProjectId] = useState("");
@@ -15,7 +16,7 @@ const AdminDashboard = () => {
     e.preventDefault();
     try {
       await axios.post(
-        `http://localhost:7777/projects/${projectId}/members`,
+        `${BASE_URL}/projects/${projectId}/members`,
         { memberId },
         { withCredentials: true }
       );

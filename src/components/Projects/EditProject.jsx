@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { updateProject } from "../../utils/projectsSlice";
+import { BASE_URL } from "../../utils/constants";
 
 const EditProject = () => {
   const { projectId } = useParams();
@@ -28,7 +29,7 @@ const EditProject = () => {
       const fetchProject = async () => {
         try {
           const res = await axios.get(
-            `http://localhost:7777/projects/${projectId}`,
+            `${BASE_URL}/projects/${projectId}`,
             { withCredentials: true }
           );
           setProjectName(res.data.title);
@@ -49,7 +50,7 @@ const EditProject = () => {
     e.preventDefault();
     try {
       const res = await axios.patch(
-        `http://localhost:7777/projects/${projectId}`,
+        `${BASE_URL}/projects/${projectId}`,
         { title: projectName, description },
         { withCredentials: true }
       );
