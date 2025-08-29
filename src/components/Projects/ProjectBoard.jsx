@@ -9,7 +9,6 @@ const ProjectBoard = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Fetch tasks for this project
   useEffect(() => {
     const fetchTasks = async () => {
       try {
@@ -17,15 +16,12 @@ const ProjectBoard = () => {
           `http://localhost:7777/projects/${projectId}/tasks`,
           { withCredentials: true }
         );
-
-        // Transform tasks into columns based on status
         const data = { todo: [], inProgress: [], done: [] };
         res.data.forEach((task) => {
           if (task.status === "To Do") data.todo.push(task);
           else if (task.status === "In Progress") data.inProgress.push(task);
           else if (task.status === "Done") data.done.push(task);
         });
-
         setTasks(data);
       } catch (err) {
         setError(err.response?.data?.message || "Failed to fetch tasks");
@@ -33,15 +29,12 @@ const ProjectBoard = () => {
         setLoading(false);
       }
     };
-
     fetchTasks();
   }, [projectId]);
 
-  // Handle drag & drop
-  const onDragEnd = (result) => {
+  const onDragEnd = async (result) => {
     const { source, destination } = result;
     if (!destination) return;
-
     if (
       source.droppableId === destination.droppableId &&
       source.index === destination.index
@@ -50,25 +43,31 @@ const ProjectBoard = () => {
 
     const sourceColumn = Array.from(tasks[source.droppableId]);
     const destColumn = Array.from(tasks[destination.droppableId]);
-
     const [movedTask] = sourceColumn.splice(source.index, 1);
     destColumn.splice(destination.index, 0, movedTask);
 
-    // Update UI immediately
     setTasks({
       ...tasks,
       [source.droppableId]: sourceColumn,
       [destination.droppableId]: destColumn,
     });
 
-    // TODO: Call API to update task status
-    // axios.put(`http://localhost:7777/tasks/${movedTask._id}`, {
-    //   status: destination.droppableId === "todo"
-    //     ? "To Do"
-    //     : destination.droppableId === "inProgress"
-    //     ? "In Progress"
-    //     : "Done",
-    // });
+    const newStatus =
+      destination.droppableId === "todo"
+        ? "To Do"
+        : destination.droppableId === "inProgress"
+        ? "In Progress"
+        : "Done";
+
+    try {
+      await axios.patch(
+        `http://localhost:7777/projects/${projectId}/tasks/${movedTask._id}`,
+        { status: newStatus },
+        { withCredentials: true }
+      );
+    } catch (err) {
+      console.error("Failed to update task status:", err);
+    }
   };
 
   const headerColors = {
@@ -100,7 +99,6 @@ const ProjectBoard = () => {
                 >
                   {columnId.replace(/([A-Z])/g, " $1")}
                 </h2>
-
                 <div className="p-3 flex-1 min-h-[300px]">
                   {columnTasks.map((task, index) => (
                     <Draggable

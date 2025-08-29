@@ -26,8 +26,6 @@ const NewProject = () => {
         { withCredentials: true }
       );
 
-      console.log("Project created:", res.data);
-
       setProjectName("");
       setDescription("");
       showToast("success", "✅ Project created successfully!");
