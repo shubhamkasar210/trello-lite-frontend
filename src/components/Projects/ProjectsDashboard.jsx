@@ -6,7 +6,7 @@ import { setProjects, deleteProject } from "../../utils/projectsSlice";
 import { Pencil, Trash2, List, Columns } from "lucide-react";
 import { BASE_URL } from "../../utils/constants";
 
-const ProjectsDashboard = () => {
+const ProjectsDashboard = ({ lightMode }) => {
   const { data: projects } = useSelector((state) => state.projects);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -37,10 +37,6 @@ const ProjectsDashboard = () => {
             );
             membersData[project._id] = membersRes.data;
           } catch (err) {
-            console.error(
-              `Failed to fetch members for project ${project._id}`,
-              err
-            );
             membersData[project._id] = [];
           }
         })
@@ -112,7 +108,11 @@ const ProjectsDashboard = () => {
       )}
 
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-10">
-        <h1 className="text-2xl sm:text-3xl font-bold text-white tracking-tight text-center sm:text-left">
+        <h1
+          className={`text-2xl sm:text-3xl font-bold tracking-tight text-center sm:text-left ${
+            lightMode ? "text-black" : "text-white"
+          }`}
+        >
           My Projects
         </h1>
         <button

@@ -40,6 +40,12 @@ const Navbar = ({ lightMode, setLightMode }) => {
 
           {isLoggedIn && (
             <div className="hidden md:flex items-center space-x-6">
+              <button
+                onClick={() => setLightMode(!lightMode)}
+                className="text-sm px-3 py-2 rounded hover:bg-gray-700 flex items-center justify-between"
+              >
+                {lightMode ? "🌙 Dark" : "🌞 Light"}
+              </button>
               <div className="relative">
                 <button
                   onClick={() => setMenuOpen(!menuOpen)}
@@ -51,7 +57,6 @@ const Navbar = ({ lightMode, setLightMode }) => {
                     alt="Profile"
                   />
                 </button>
-
                 {menuOpen && (
                   <div className="absolute right-0 mt-2 w-48 bg-gray-800 rounded-md shadow-lg py-2 z-50">
                     {isAdmin && (
@@ -63,12 +68,6 @@ const Navbar = ({ lightMode, setLightMode }) => {
                         Admin Dashboard
                       </Link>
                     )}
-                    <button
-                      onClick={() => setLightMode(!lightMode)}
-                      className="w-full text-left px-4 py-2 text-sm hover:bg-gray-700 flex items-center justify-between"
-                    >
-                      {lightMode ? "🌙 Dark Mode" : "🌞 Light Mode"}
-                    </button>
                     <Link
                       to="/projects"
                       className="block px-4 py-2 text-sm hover:bg-gray-700"
@@ -119,6 +118,12 @@ const Navbar = ({ lightMode, setLightMode }) => {
 
       {isLoggedIn && menuOpen && (
         <div className="md:hidden bg-gray-800 px-2 pt-2 pb-3 space-y-1">
+          <button
+            onClick={() => setLightMode(!lightMode)}
+            className="w-full text-left px-3 py-2 rounded text-base hover:bg-gray-700 flex items-center justify-between"
+          >
+            {lightMode ? "🌙 Dark" : "🌞 Light"}
+          </button>
           {isAdmin && (
             <Link
               to="/admin-dashboard"
@@ -128,12 +133,6 @@ const Navbar = ({ lightMode, setLightMode }) => {
               Admin Dashboard
             </Link>
           )}
-          <button
-            onClick={() => setLightMode(!lightMode)}
-            className="w-full text-left px-3 py-2 rounded text-base hover:bg-gray-700 flex items-center justify-between"
-          >
-            {lightMode ? "🌙 Dark Mode" : "🌞 Light Mode"}
-          </button>
           <Link
             to="/projects"
             className="block px-3 py-2 rounded text-base hover:bg-gray-700"

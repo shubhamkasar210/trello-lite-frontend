@@ -39,7 +39,8 @@ function App() {
             <Route path="/" element={<Body />}>
               <Route index element={<Login />}></Route>
               <Route element={<ProtectedRoutes />}>
-                <Route path="/projects" element={<ProjectsDashboard />} />
+              <Route path="/projects" element={<ProjectsDashboard lightMode={lightMode} />} />
+
 
                 <Route path="/projects/new" element={<NewProject />} />
                 <Route path="/projects/:projectId" element={<ProjectBoard />} />
