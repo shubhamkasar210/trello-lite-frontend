@@ -41,16 +41,17 @@ Development Dependencies (devDependencies):
 | @types/react-dom            | ^19.1.7  | Type definitions for React DOM |
 | globals                     | ^16.3.0  | Global variables for ESLint    |
 
-<img width="1366" height="768" alt="Screenshot 1" src="https://github.com/user-attachments/assets/466049e7-58dc-42f6-84de-586e615e3762" />
-<img width="1366" height="768" alt="Screenshot 2" src="https://github.com/user-attachments/assets/82cc0387-6531-42e3-abf6-e9065cb53f49" />
-<img width="1366" height="768" alt="Screenshot 3" src="https://github.com/user-attachments/assets/b22824bf-9072-4b6b-bcc6-285b7eb9ccec" />
-<img width="1366" height="768" alt="Screenshot 4" src="https://github.com/user-attachments/assets/c41e06ac-1d11-40f0-ac85-d55da4d51ffc" />
-<img width="1366" height="768" alt="Screenshot 5" src="https://github.com/user-attachments/assets/c2c3a731-02cb-47ab-a0b3-8e315b235fae" />
-<img width="1366" height="768" alt="Screenshot 6" src="https://github.com/user-attachments/assets/a5bdce90-c3b1-4418-a0f5-05798498f9d5" />
-<img width="1366" height="768" alt="Screenshot 7" src="https://github.com/user-attachments/assets/76f1e39d-ec77-4f9e-aa60-7661808c8976" />
-<img width="1366" height="768" alt="Screenshot 8" src="https://github.com/user-attachments/assets/953e85e6-5850-4121-a6c1-8a5b130ebdd5" />
-<img width="1366" height="768" alt="Screenshot 9" src="https://github.com/user-attachments/assets/2947a25b-3efc-4d0b-aadb-7c1ba4958617" />
-<img width="1366" height="768" alt="Screenshot 10" src="https://github.com/user-attachments/assets/2ab9a0d4-0457-484c-8878-5452abe24fab" />
-<img width="1366" height="768" alt="Screenshot 11" src="https://github.com/user-attachments/assets/b81dfd00-7010-4506-acd3-17b6b2beeb21" />
 
 
+<img width="1366" height="768" alt="Screenshot 1" src="https://github.com/user-attachments/assets/f7d48bc1-759b-4f30-85db-f35e118cf7e2" />
+<img width="1366" height="768" alt="Screenshot 2" src="https://github.com/user-attachments/assets/949d8e1c-f2cb-4eda-b70c-6e8431c7ead4" />
+<img width="1366" height="768" alt="Screenshot 3" src="https://github.com/user-attachments/assets/69fa6095-1c86-4b0d-8c5f-633b2a7f26fe" />
+<img width="1366" height="768" alt="Screenshot 4" src="https://github.com/user-attachments/assets/dfadc1bb-c423-4b6f-ade2-a5a6260f583b" />
+<img width="1366" height="768" alt="Screenshot 5" src="https://github.com/user-attachments/assets/e810d4a6-5705-4023-a349-68e3ebb7daf4" />
+<img width="1366" height="768" alt="Screenshot 6" src="https://github.com/user-attachments/assets/3de1cf1e-cd78-4f81-a91f-557d6e6a26aa" />
+<img width="1366" height="768" alt="Screenshot 7" src="https://github.com/user-attachments/assets/a1f34737-04d1-4ead-873f-d48cd7badf74" />
+<img width="1366" height="768" alt="Screenshot 8" src="https://github.com/user-attachments/assets/6896e34b-e68a-4562-aed0-ec1aafaa800f" />
+<img width="1366" height="768" alt="Screenshot 9" src="https://github.com/user-attachments/assets/097d09b4-adfb-4136-a6ca-18619d9808f8" />
+<img width="1366" height="768" alt="Screenshot 10" src="https://github.com/user-attachments/assets/39d22ab0-0746-4fec-be81-e5c8d3c2e680" />
+<img width="1366" height="768" alt="Screenshot 11" src="https://github.com/user-attachments/assets/07fc8781-984c-40fd-be1c-0bd9e7ca744c" />
+<img width="1366" height="768" alt="Screenshot 12" src="https://github.com/user-attachments/assets/32288456-06ef-4502-b234-0189f4831500" />
