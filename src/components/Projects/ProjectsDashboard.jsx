@@ -150,9 +150,9 @@ const ProjectsDashboard = ({ lightMode }) => {
               {membersMap[project._id] &&
                 membersMap[project._id].length > 0 && (
                   <div className="flex flex-wrap gap-2 mt-3">
-                    {membersMap[project._id].map((member) => (
+                    {membersMap[project._id].map((member, idx) => (
                       <span
-                        key={member._id}
+                        key={`${project._id}-${member._id}-${idx}`}
                         className="px-2 py-1 text-xs text-gray-200 bg-gray-700/40 rounded-full border border-gray-600"
                       >
                         {member.userName}

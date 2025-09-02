@@ -4,7 +4,7 @@ import axios from "axios";
 import { Pencil, Trash2 } from "lucide-react";
 import { BASE_URL } from "../../utils/constants";
 
-const TaskList = () => {
+const TaskList = ({ lightMode }) => {
   const { projectId } = useParams();
   const navigate = useNavigate();
   const [tasks, setTasks] = useState([]);
@@ -98,7 +98,11 @@ const TaskList = () => {
       )}
 
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-10">
-        <h1 className="text-2xl sm:text-3xl font-bold text-white tracking-tight text-center sm:text-left">
+        <h1
+          className={`text-2xl sm:text-3xl font-bold tracking-tight text-center sm:text-left ${
+            lightMode ? "text-black" : "text-white"
+          }`}
+        >
           Tasks
         </h1>
         <button
